@@ -125,4 +125,11 @@ height: 100vh;
   transition: all 1.5s;
 }
 
+.text-content{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: rgb(102, 101, 101);
+}
+
 /* elements*/
