@@ -6,67 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./assets/style/style.css">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css' integrity='sha512-HHsOC+h3najWR7OKiGZtfhFIEzg5VRIPde0kB0bG2QRidTQqf+sbfcxCTB16AcFB93xMjnBIKE29/MjdzXE+qw==' crossorigin='anonymous'/>
-  <title></title>
+  <title>Carosello Array di Oggetti</title>
 </head>
 <body>
 
-  <div class="main-wrapper d-flex d-center">
-    <div class="slider-container p-rel">
+  <main class="d-flex d-center">
 
-      <div class="slide block">
-        <div class="text-content">
-          <h2>Bari</h2>
-          <p>Se Parigi avesse il mare sarebbe una piccola Bari</p>
+    <div class="main-wrapper d-flex d-center">
+
+      <div class="slider-container p-rel">
+        <!-- genero il contenuto dal js -->
+
+        <div class="btn-container d-flex d-bet-center ">
+          <div class="btn prev text-center">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+          <div class="btn next text-center">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </div>
-        <img src="./assets/img/bari.jpg" alt="bari">
-      </div>
 
-      <div class="slide hide">
-        <img src="./assets/img/roma.jpg" alt="bari">
-      </div>
+      </div> 
 
-      <div class="slide hide">
-        <img src="./assets/img/milano.jpg" alt="bari">
-      </div>
 
-      <div class="slide hide">
-        <img src="./assets/img/firenze.jpg" alt="bari">
-      </div>
-
-      <div class="slide hide">
-        <img src="./assets/img/napoli.jpg" alt="bari">
-      </div>
-
-      <div class="btn-container d-flex d-bet-center ">
-        <div class="btn prev text-center">
-          <i class="fa-solid fa-chevron-left"></i>
+        <div class="thumb-container d-flex">
+          <!-- genero il contenuto dal js -->
         </div>
-        <div class="btn next text-center">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-      </div>
 
-      <div class="thumb-container d-flex">
-       <div class="thumb active">
-        <img src="./assets/img/bari.jpg" alt="bari">
-       </div>
-       <div class="thumb unactive">
-        <img src="./assets/img/roma.jpg" alt="bari">
-       </div>
-       <div class="thumb unactive">
-        <img src="./assets/img/milano.jpg" alt="bari">
-       </div>
-       <div class="thumb unactive">
-        <img src="./assets/img/firenze.jpg" alt="bari">
-       </div>
-       <div class="thumb unactive">
-        <img src="./assets/img/napoli.jpg" alt="bari">
-       </div>
-
-      </div>
     </div>
-    </div>
-
+      
+  </main>
 
   <script src="./js/script.js"></script>
 </body>
