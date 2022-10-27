@@ -31,137 +31,135 @@ const cities =
   picture:"./assets/img/napoli.jpg"
 },
 ]
+
 // Dichiaro gli elementi del dom
 const sliderContainer = document.querySelector('.slider-container');
 const thumbContainer = document.querySelector('.thumb-container');
 const mainWrapper = document.querySelector('.main-wrapper')
 
-// Aggiungo funzionalità ai bottoni next e prev che cambieranno l'immagine
 
+// Variabili globali 
+let counterImages = 0;
+let isOver = false;
+let isForward = true;
+let isPause = false;
+init();
 
-//Creo le funzioni per stampare gli oggetti all'interno del dom dinamicamente
-readCities();
-function readCities(){
-  cities.forEach( (city) => {
-    printCities(city);
+function init(){
+
+  cities.forEach( (city, index) => {
+    sliderContainer.innerHTML += getContentSlider(city);
+    thumbContainer.innerHTML += getContentThumbnail(city, index);
   })
 }
 
-function printCities(city){
-  
-let sliderContent = sliderContainer.innerHTML; 
+function getContentSlider(city){
+  const{name, description, picture} = city;
 
-cityName = city.name;
-description= city.description;
-picture = city.picture;
-
- sliderContent =
-`
-<div class="slide">
-<div class="text-content">
-  <h2>${cityName}</h2>
-  <p>${description}</p>
-</div>
-<img class="slider-image" src="${picture}" alt="${cityName}">
-</div>
-`
-let thumbContent = thumbContainer.innerHTML;
-
-cityName = city.name;
-picture = city.picture;
-
-thumbContent =
-`
-<div class="thumb unactive">
-<img class="thumbnail-image" src="${picture}" alt="${cityName}">
-</div>
-
-`
-thumbContainer.innerHTML += thumbContent ;
-sliderContainer.innerHTML += sliderContent;
+  return`  <div class="slide">
+  <div class="text-content">
+    <h2>${name}</h2>
+    <p>${description}</p>
+  </div>
+  <img class="slider-image" src="${picture}" alt="${name}">
+  </div>  
+  `
 }
 
-// Rendo visibili solo i primi elementi dei container slider & thumb
-const showedPicture = document.querySelector('.slide').classList.add('active');
-const showedThumb = document.querySelector('.thumb').classList.add('active');
-const arrayOfPicture = document.getElementsByClassName('slide');
-const arraOfThumbNail = document.getElementsByClassName('thumb')
-// creo l'event listener dei bottoni
-const btnPrev = document.querySelector('.prev');
-const btnNext = document.querySelector('.next');
+function getContentThumbnail(city, index){
+const{name, picture} = city;
 
-btnNext.addEventListener('click', function() {
-  switchPicture(true)
-});
-
-btnPrev.addEventListener('click', function() {
-  switchPicture(false)
-});
-
-//creo una funzione generica per cambiare immagine al click del bottone
-let counter = 0;
-
-function switchPicture(isNext){
- 
-  arrayOfPicture[counter].classList.remove('active');
-  arraOfThumbNail[counter].classList.remove('active');
-  if(isNext){
-    counter++;
-    if(counter === arrayOfPicture.length){counter=0;}
-  }else{
-    counter--;
-    if(counter < 0){counter = arrayOfPicture.length -1;}
-  }
-  arrayOfPicture[counter].classList.add('active');
-  arraOfThumbNail[counter].classList.add('active');
+return `<div class="thumb" onclick="change(${index})">
+<img class="thumbnail-image" src="${picture}" alt="${name}">
+</div>
+`
 }
 
-let isAuto= true;
 
-mainWrapper.addEventListener('mouseover', function(){
-  isAuto=false;
+function activate(){
+  document.getElementsByClassName('slide')[counterImages].classList.add('active');
+  document.getElementsByClassName('thumb')[counterImages].classList.add('active');
+}
+
+function deactivate(){
+  document.getElementsByClassName('slide')[counterImages].classList.remove('active');
+  document.getElementsByClassName('thumb')[counterImages].classList.remove('active');
+}
+
+activate();
+
+function change(index){
+  console.log("click");
+  deactivate();
+  counterImages = index;
+  activate();
+}
+
+
+const nextBtn= document.querySelector('.next');
+const prevBtn= document.querySelector('.prev');
+nextBtn.isNext = true;
+prevBtn.isNext = false;
+
+nextBtn.addEventListener('click', nextPrevImage);
+prevBtn.addEventListener('click', nextPrevImage);
+
+function nextPrevImage(){
+  deactivate();
+  nextOrPrev(this.isNext);
+  activate()
+}
+
+function nextOrPrev(isNext){
+if(isNext){
+  counterImages++
+  if(counterImages === cities.length)counterImages = 0;
+}else{
+  counterImages--;
+  if(counterImages < 0) counterImages = cities.length - 1;
+}
+}
+
+mainWrapper.addEventListener('mouseenter', () =>{
+  isOver = true;
+})
+mainWrapper.addEventListener('mouseleave', () =>{
+  isOver = false;
 })
 
-mainWrapper.addEventListener('mouseout', function(){
-  isAuto=true;
-})
-
-setInterval(function(){
-  if(isAuto){switchPicture(true);}
-  
-},2500)
 
 const stopBtn = document.querySelector('#stop-btn');
 const playBtn = document.querySelector('#play-btn');
 const backBtn = document.querySelector('#back-btn');
 const forwardBtn = document.querySelector('#forward-btn');
 
-
-stopBtn.addEventListener('click', function() {
-  isAuto=false;
-  playBtn.classList.remove('hide');
+stopBtn.addEventListener('click', () =>{
+  isOver = !isOver ;
   stopBtn.classList.add('hide');
+  playBtn.classList.remove('hide');
 });
 
-playBtn.addEventListener('click', function() {
-  isAuto=true;
-  playBtn.classList.add('hide');
+playBtn.addEventListener('click', () =>{
+  isOver = !isOver;
   stopBtn.classList.remove('hide');
+  playBtn.classList.add('hide');
+})
+
+
+backBtn.addEventListener('click', () =>{
+  isForward = !isForward;
+ 
 });
 
-backBtn.addEventListener('click', function() {
-  isAuto=false;
-  setInterval(function(){
-  switchPicture(false);
-  },2500)
-
+forwardBtn.addEventListener('click', () =>{
+  isForward = !isForward;
+ 
 });
 
-forwardBtn.addEventListener('click', function() {
-  isAuto=false;
-  setInterval(function(){
-  switchPicture(true);
-  },2500)
-  console.log(isAuto);
-});
-
+setInterval(()=>{
+  if(!isOver){
+    deactivate();
+    nextOrPrev(isForward);
+    activate();
+  }
+}, 2000)
