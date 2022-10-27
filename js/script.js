@@ -34,7 +34,7 @@ const cities =
 // Dichiaro gli elementi del dom
 const sliderContainer = document.querySelector('.slider-container');
 const thumbContainer = document.querySelector('.thumb-container');
-
+const mainWrapper = document.querySelector('.main-wrapper')
 
 // Aggiungo funzionalità ai bottoni next e prev che cambieranno l'immagine
 
@@ -116,4 +116,52 @@ function switchPicture(isNext){
   arraOfThumbNail[counter].classList.add('active');
 }
 
-setInterval()
+let isAuto= true;
+
+mainWrapper.addEventListener('mouseover', function(){
+  isAuto=false;
+})
+
+mainWrapper.addEventListener('mouseout', function(){
+  isAuto=true;
+})
+
+setInterval(function(){
+  if(isAuto){switchPicture(true);}
+  
+},2500)
+
+const stopBtn = document.querySelector('#stop-btn');
+const playBtn = document.querySelector('#play-btn');
+const backBtn = document.querySelector('#back-btn');
+const forwardBtn = document.querySelector('#forward-btn');
+
+
+stopBtn.addEventListener('click', function() {
+  isAuto=false;
+  playBtn.classList.remove('hide');
+  stopBtn.classList.add('hide');
+});
+
+playBtn.addEventListener('click', function() {
+  isAuto=true;
+  playBtn.classList.add('hide');
+  stopBtn.classList.remove('hide');
+});
+
+backBtn.addEventListener('click', function() {
+  isAuto=false;
+  setInterval(function(){
+  switchPicture(false);
+  },2500)
+
+});
+
+forwardBtn.addEventListener('click', function() {
+  isAuto=false;
+  setInterval(function(){
+  switchPicture(true);
+  },2500)
+  console.log(isAuto);
+});
+
